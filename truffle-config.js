@@ -4,6 +4,17 @@ const mnemonic =
 
 module.exports = {
     networks: {
+        rinkeby: {
+            provider: () =>
+                new HDWalletProvider({
+                    mnemonic,
+                    providerOrUrl: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ARK_ALCHEMY_API_KEY}`,
+                    chainId: 4,
+                }),
+            network_id: 4,
+            skipDryRun: true,
+            gas: 10000000,
+        },
         testnet: {
             provider: () =>
                 new HDWalletProvider(

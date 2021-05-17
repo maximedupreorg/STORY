@@ -1,13 +1,18 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const mnemonic =
-    'color idle skill jewel fix limb knock soft traffic tag armor derive';
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
+    plugins: ['truffle-plugin-verify'],
+    api_keys: {
+        bscscan: process.env.BSCSCAN_API_KEY,
+    },
     networks: {
         rinkeby: {
             provider: () =>
                 new HDWalletProvider({
-                    mnemonic,
+                    mnemonic: process.env.MNEMONIC,
                     providerOrUrl: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ARK_ALCHEMY_API_KEY}`,
                     chainId: 4,
                 }),
@@ -17,10 +22,10 @@ module.exports = {
         },
         testnet: {
             provider: () =>
-                new HDWalletProvider(
-                    mnemonic,
-                    `https://data-seed-prebsc-1-s1.binance.org:8545`,
-                ),
+                new HDWalletProvider({
+                    mnemonic: process.env.MNEMONIC,
+                    providerOrUrl: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+                }),
             network_id: 97,
             confirmations: 10,
             timeoutBlocks: 200,
@@ -29,10 +34,10 @@ module.exports = {
         },
         bsc: {
             provider: () =>
-                new HDWalletProvider(
-                    mnemonic,
-                    `https://bsc-dataseed1.binance.org`,
-                ),
+                new HDWalletProvider({
+                    mnemonic: process.env.MNEMONIC,
+                    providerOrUrl: `https://bsc-dataseed1.binance.org`,
+                }),
             network_id: 56,
             confirmations: 10,
             timeoutBlocks: 200,

@@ -1,7 +1,7 @@
 const StarrToken = artifacts.require('StarrToken');
 
 contract('StarrToken', (accounts) => {
-    it.only('should have the STARR symbol', async () => {
+    it('should have the STARR symbol', async () => {
         const instance = await StarrToken.new();
 
         const symbol = await instance.symbol();

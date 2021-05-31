@@ -945,7 +945,7 @@ contract StarrToken is Context, IERC20, Ownable {
     mapping(address => bool) public bannedUsers;
 
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tTotal = 5000 * 10**6 * 10**9;
+    uint256 private _tTotal = 1000 * 10**7 * 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 

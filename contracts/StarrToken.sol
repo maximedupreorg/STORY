@@ -1185,7 +1185,7 @@ contract StarrToken is Context, IERC20, Ownable {
     ) public onlyOwner {
         require(
             _tokenAddr != address(this),
-            'Cannot transfer out' + _symbol + '!'
+            "Cannot transfer out this contract's token!"
         );
         Token(_tokenAddr).transfer(_to, _amount);
     }

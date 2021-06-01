@@ -950,7 +950,7 @@ contract StarrToken is Context, IERC20, Ownable {
     uint256 private _tFeeTotal;
 
     string private _name = 'Starr Token';
-    string private _symbol = 'STARR';
+    string private _symbol = 'STARR1';
     uint8 private _decimals = 9;
 
     uint256 public _taxFee = 2;

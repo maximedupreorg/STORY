@@ -1197,10 +1197,14 @@ contract StarrToken is Context, IERC20, Ownable {
     }
 
     function setTaxFeePercent(uint256 taxFee) external onlyOwner {
+        require(taxFee <= 10);
+
         _taxFee = taxFee;
     }
 
     function setLiquidityFeePercent(uint256 liquidityFee) external onlyOwner {
+        require(liquidityFee <= 10);
+
         _liquidityFee = liquidityFee;
     }
 

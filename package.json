@@ -2,8 +2,14 @@
     "devDependencies": {
         "@truffle/hdwallet-provider": "^1.4.0",
         "dotenv": "^9.0.2",
+        "dotenv-cli": "^4.0.0",
+        "ganache-cli": "^6.12.2",
         "prettier-plugin-solidity": "^1.0.0-beta.10",
         "truffle": "^5.3.6",
         "truffle-plugin-verify": "^0.5.8"
+    },
+    "scripts": {
+        "start:rinkebyFork": "dotenv -- bash -c 'ganache-cli -f https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY_RINKEBY}'",
+        "test": "dotenv truffle test"
     }
 }

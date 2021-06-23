@@ -1,7 +1,6 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const dotenv = require('dotenv');
 
-dotenv.config();
+const DEFAULT_GAS_PRICE = 20000000000;
 
 module.exports = {
     plugins: ['truffle-plugin-verify'],
@@ -10,18 +9,18 @@ module.exports = {
         etherscan: process.env.ETHERSCAN_API_KEY,
     },
     networks: {
-        rinkeby: {
+        bscMainnet: {
             provider: () =>
                 new HDWalletProvider({
                     mnemonic: process.env.MNEMONIC,
-                    providerOrUrl: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ARK_ALCHEMY_API_KEY}`,
-                    chainId: 4,
+                    providerOrUrl: `https://bsc-dataseed1.binance.org`,
                 }),
-            network_id: 4,
+            network_id: 56,
+            confirmations: 10,
+            timeoutBlocks: 200,
             skipDryRun: true,
-            gas: 10000000,
         },
-        testnet: {
+        bscTestnet: {
             provider: () =>
                 new HDWalletProvider({
                     mnemonic: process.env.MNEMONIC,
@@ -33,21 +32,42 @@ module.exports = {
             skipDryRun: true,
             gas: 30000000 / 4,
         },
-        bsc: {
+        ethKovan: {
             provider: () =>
                 new HDWalletProvider({
                     mnemonic: process.env.MNEMONIC,
-                    providerOrUrl: `https://bsc-dataseed1.binance.org`,
+                    providerOrUrl: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY_KOVAN}`,
+                    chainId: 42,
                 }),
-            network_id: 56,
-            confirmations: 10,
-            timeoutBlocks: 200,
+            network_id: 42,
             skipDryRun: true,
+            gas: 10000000,
+        },
+        ethRinkeby: {
+            provider: () =>
+                new HDWalletProvider({
+                    mnemonic: process.env.MNEMONIC,
+                    providerOrUrl: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY_RINKEBY}`,
+                    chainId: 4,
+                }),
+            network_id: 4,
+            skipDryRun: true,
+            gasPrice: DEFAULT_GAS_PRICE * 2,
+        },
+        test: {
+            host: '127.0.0.1',
+            port: 8545,
+            network_id: '*',
         },
     },
     compilers: {
         solc: {
             version: '0.6.12',
+            settings: {
+                optimizer: {
+                    enabled: true,
+                },
+            },
         },
     },
 };

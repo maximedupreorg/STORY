@@ -903,10 +903,10 @@ contract StarrToken is Context, IERC20, Ownable {
     string private _symbol = 'STARR1';
     uint8 private _decimals = 9;
 
-    uint256 public _taxFee = 2;
+    uint256 public _taxFee = 10;
     uint256 private _previousTaxFee = _taxFee;
 
-    uint256 public _liquidityFee = 2;
+    uint256 public _liquidityFee = 10;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
@@ -935,19 +935,27 @@ contract StarrToken is Context, IERC20, Ownable {
 
     constructor() public {
         _rOwned[_msgSender()] = _rTotal;
-
         IUniswapV2Router02 _uniswapV2Router =
             IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
-        // Create a Pancakeswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
-
-        // set the rest of the contract variables
         uniswapV2Router = _uniswapV2Router;
 
-        //exclude owner and this contract from fee
-        _isExcludedFromFee[owner()] = true;
+        // Exclude from fees
+        // contract
         _isExcludedFromFee[address(this)] = true;
+        // deployment
+        _isExcludedFromFee[owner()] = true;
+        // unicrypt
+        _isExcludedFromFee[0xDba68f07d1b7Ca219f78ae8582C213d975c25cAf] = true;
+
+        // Exclude from rewards
+        // contract
+        excludeFromReward(address(this));
+        // deployment
+        excludeFromReward(owner());
+        // unicrypt
+        excludeFromReward(0xDba68f07d1b7Ca219f78ae8582C213d975c25cAf);
 
         emit Transfer(address(0), _msgSender(), _tTotal);
     }

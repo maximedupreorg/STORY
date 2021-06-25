@@ -172,4 +172,48 @@ contract('StarrToken', (accounts) => {
 
         assert.equal(failed, true);
     });
+
+    it('should be able to do a reflective airdrop to all non excluded wallets', async () => {
+        const instance = await StarrToken.new();
+
+        await instance.transfer(accounts[1], getTokenAmount(4000000000));
+
+        await instance.transfer(accounts[2], getTokenAmount(3000000000));
+
+        await instance.transfer(accounts[3], getTokenAmount(1000000000));
+
+        await instance.deliver(getTokenAmount(4000000000), {
+            from: accounts[1],
+        });
+
+        assert.equal(
+            (await instance.balanceOf(accounts[0])).toString(),
+            getTokenAmount(2000000000),
+            'first account balance',
+        );
+
+        assert.equal(
+            (await instance.balanceOf(accounts[1])).toString(),
+            getTokenAmount(0),
+            'second account balance',
+        );
+
+        assert.equal(
+            (await instance.balanceOf(accounts[2])).toString(),
+            getTokenAmount(6000000000),
+            'third account balance',
+        );
+
+        assert.equal(
+            (await instance.balanceOf(accounts[3])).toString(),
+            getTokenAmount(2000000000),
+            'fourth account balance',
+        );
+    });
+
+    function getTokenAmount(number) {
+        const DECIMALS = 10 ** 9;
+
+        return (number * DECIMALS).toString();
+    }
 });
